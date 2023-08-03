@@ -12,8 +12,8 @@ public class Tabuleiro {
 
 	private final List<Campo> campos = new ArrayList<>();// foi utilizada uma List ao inv�s de matriz para podermos
 															// utilizar o API de Streams
-	// quanto mais restrito for a visibilidade melhor fica, pois o c�digo fica mais
-	// independente tornando a manuten��o mais facil
+	// quanto mais restrito for a visibilidade melhor fica, pois o código fica mais
+	// independente tornando a manutenção mais facil
 
 	public Tabuleiro(int linhas, int colunas, int minas) {
 		this.linhas = linhas;

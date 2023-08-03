@@ -13,12 +13,23 @@ public class Campo {// um quadradinho do campo
 	private boolean marcado = false;// se est� marcado ou n�o
 
 	private List<Campo> vizinhos = new ArrayList<>();
+	//       Set funcionaria bem tambem pois não deixaria ser adicionado o mesmo abservador mais de uma vez
+	private List<CampoObservador> observadores = new ArrayList<>();
 
 	Campo(int linha, int coluna) {
 		this.linha = linha;
 		this.coluna = coluna;
 	}
-
+	
+	public void registrarObservador(CampoObservador observador) {
+		observadores.add(observador);
+	}
+	
+	private void notificarObservadores(CampoEvento evento) {
+		observadores.stream()
+			.forEach(o -> o.eventoOcorreu(this, evento));
+	}
+	
 	boolean adicionarVizinho(Campo vizinho) {
 		boolean linhaDiferente = linha != vizinho.linha;
 		boolean colunaDiferente = coluna != vizinho.coluna;
@@ -42,18 +53,25 @@ public class Campo {// um quadradinho do campo
 	void alternarMarcacao() {
 		if(!aberto) {
 			marcado = !marcado;
+			
+			if(marcado) {
+				notificarObservadores(CampoEvento.MARCAR);
+			}else {
+				notificarObservadores(CampoEvento.DESMARCAR);
+			}
 		}
 	}
 	
 	boolean abrir() {
 		
 		if(!aberto && !marcado) {
-			aberto = true;
 			
 			if(minado) {
-				//TODO implementar nova versão (TODO é para algo que ainda vai fazer
-				//FIXME (algum erro que vai concertar
+				notificarObservadores(CampoEvento.EXPLODIR);
+				return true;
 			}
+			
+			setAberto(true);
 			
 			if(vizinhancaSegura()) {
 				vizinhos.forEach(v -> v.abrir());//passa um consumer que vai abrir os vizinhos de forma recursiva, at� encontrar um vizinho que n�o possa ser aberto
@@ -90,6 +108,10 @@ public class Campo {// um quadradinho do campo
 	
 	void setAberto(boolean aberto) {
 		this.aberto = aberto;
+		
+		if(aberto) {
+			notificarObservadores(CampoEvento.ABRIR);
+		}
 	}
 	
 	public boolean isAberto() {
