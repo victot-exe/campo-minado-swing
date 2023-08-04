@@ -7,9 +7,9 @@ import java.util.function.Predicate;
 
 public class Tabuleiro implements CampoObservador {
 
-	private int linhas;
-	private int colunas;
-	private int minas;
+	private final int linhas;
+	private final int colunas;
+	private final int minas;
 
 	private final List<Campo> campos = new ArrayList<>();// foi utilizada uma List ao inv�s de matriz para podermos
 															// utilizar o API de Streams
@@ -23,11 +23,15 @@ public class Tabuleiro implements CampoObservador {
 		this.linhas = linhas;
 		this.colunas = colunas;
 		this.minas = minas;
-		// ap�s o tabuleiro ser iniciado ele vai executar alguns m�todos
+		// após o tabuleiro ser iniciado ele vai executar alguns m�todos
 		// automaticamente.
 		gerarCampos();
 		associarVizinhos();
 		sortearMinas();
+	}
+	
+	public void paraCadaCampo(Consumer<Campo> funcao) {
+		campos.forEach(funcao);
 	}
 	
 	public void registrarObservador(Consumer<ResultadoEvento> observador) {
@@ -91,6 +95,14 @@ public class Tabuleiro implements CampoObservador {
 		sortearMinas();
 	}
 	
+	public int getLinhas() {
+		return linhas;
+	}
+
+	public int getColunas() {
+		return colunas;
+	}
+
 	@Override
 	public void eventoOcorreu(Campo campo, CampoEvento evento) {
 		if(evento == CampoEvento.EXPLODIR) {
@@ -100,6 +112,7 @@ public class Tabuleiro implements CampoObservador {
 			notificarObservadores(true);
 		}
 	}
+	
 //	percorre todos os campos, separa os que tem mina e abre para mostrar o resultado do jogo
 	private void mostrarMinas() {
 		campos.stream()
