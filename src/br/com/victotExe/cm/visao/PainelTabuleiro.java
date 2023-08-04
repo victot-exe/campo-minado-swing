@@ -15,5 +15,10 @@ public class PainelTabuleiro extends JPanel {// JPanel é um container(component
 				tabuleiro.getLinhas(), tabuleiro.getColunas()));
 		
 		tabuleiro.paraCadaCampo(c -> add(new BotaoCampo(c)));
+		
+		//aqui é onde mostra para o observador se ele ganhou ou perdeu
+		tabuleiro.registrarObservador(e -> {
+			//TODO mostrar resultado pro usuário!
+		});
 		}
 }
