@@ -50,7 +50,7 @@ public class Campo {// um quadradinho do campo
 		}
 	}
 	
-	void alternarMarcacao() {
+	public void alternarMarcacao() {
 		if(!aberto) {
 			marcado = !marcado;
 			
@@ -62,7 +62,7 @@ public class Campo {// um quadradinho do campo
 		}
 	}
 	
-	boolean abrir() {
+	public boolean abrir() {
 		
 		if(!aberto && !marcado) {
 			
@@ -84,7 +84,7 @@ public class Campo {// um quadradinho do campo
 		}
 	}
 	
-	boolean vizinhancaSegura() {
+	public boolean vizinhancaSegura() {
 		//Predicate<Campo> seguro = a -> a.minado == false;//minha tentativa
 		return vizinhos.stream().noneMatch(v -> v.minado);//se nenhum for minado ele retorna true
 				//.anyMatch(seguro);//minha tentativa
@@ -136,8 +136,8 @@ public class Campo {// um quadradinho do campo
 		return desvendado || protegido;
 	}
 	
-	long minasNaVizinhanca() {
-		return vizinhos.stream().filter(v -> v.minado).count();//conta quantos est�o minados e retorna
+	public int minasNaVizinhanca() {
+		return (int)vizinhos.stream().filter(v -> v.minado).count();//conta quantos est�o minados e retorna
 	}
 	
 	void reiniciar() {
