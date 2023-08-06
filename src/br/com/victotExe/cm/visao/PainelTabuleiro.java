@@ -2,7 +2,9 @@ package br.com.victotExe.cm.visao;
 
 import java.awt.GridLayout;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import br.com.victotExe.cm.modelo.Tabuleiro;
 
@@ -18,7 +20,17 @@ public class PainelTabuleiro extends JPanel {// JPanel é um container(component
 		
 		//aqui é onde mostra para o observador se ele ganhou ou perdeu
 		tabuleiro.registrarObservador(e -> {
-			//TODO mostrar resultado pro usuário!
+//			chama este método após terminar de atualizar a interface
+			SwingUtilities.invokeLater(() -> {
+				
+				if(e.isGanhou()) {
+					JOptionPane.showMessageDialog(this, "Ganhou :)");
+				}else {
+					JOptionPane.showMessageDialog(this, "Perdeu :(");
+				}
+				
+				tabuleiro.reiniciar();
+			});
 		});
-		}
+	}
 }

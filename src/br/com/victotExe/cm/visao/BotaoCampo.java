@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import br.com.victotExe.cm.modelo.Campo;
 import br.com.victotExe.cm.modelo.CampoEvento;
@@ -15,7 +16,7 @@ import br.com.victotExe.cm.modelo.CampoObservador;
 public class BotaoCampo extends JButton implements CampoObservador, MouseListener{
 										//implementa CampoObservador pois ela é a classe responsável por notificar sempre que acontece algo
 	private final Color BG_PADRAO = new Color(184, 184, 184);
-	private final Color BG_MARCADO = new Color(8, 179, 247);
+	private final Color BG_MARCAR = new Color(8, 179, 247);
 	private final Color BG_EXPLODIR = new Color(189, 66, 68);
 	private final Color TEXTO_VERDE = new Color(0, 100, 0);
 	
@@ -25,6 +26,7 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
 	public BotaoCampo(Campo campo) {
 		this.campo = campo;
 		setBackground(BG_PADRAO);
+		setOpaque(true);
 		setBorder(BorderFactory.createBevelBorder(0));
 		
 //		adicionando o Listener do mouse, que vai adicionar o evento de clicar a classe e informar qual botão está sendo utilizado
@@ -47,26 +49,40 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
 		default:
 			aplicarEstiloPadrao();
 		}
+//		desnecessário mas faz com que vc tenha a garantia que o componente será repintado e validado.
+		SwingUtilities.invokeLater(() -> {
+			repaint();
+			validate();
+		});
 	}
 //métodos que deixam o campo do estilo desejado, alterando a aperencia do mesmo de acordo com o evento ocorrido
 	private void aplicarEstiloPadrao() {
-		// TODO Auto-generated method stub
-		
+		setBackground(BG_PADRAO);
+		setBorder(BorderFactory.createBevelBorder(0));
+		setText("");
 	}
 
 	private void aplicarEstiloExplodir() {
-		// TODO Auto-generated method stub
-		
+		setBackground(BG_EXPLODIR);
+		setForeground(Color.WHITE);
+		setText("X");
 	}
 
 	private void aplicarEstiloMarcar() {
-		// TODO Auto-generated method stub
-		
+		setBackground(BG_MARCAR);
+		setForeground(Color.BLACK);
+		setText("M");
 	}
 
 	private void aplicarEstiloAbrir() {
-		setBackground(BG_PADRAO);
 		setBorder(BorderFactory.createLineBorder(Color.gray));
+		
+		if(campo.isMinado()) {
+			setBackground(BG_EXPLODIR);
+			return;
+		}
+		
+		setBackground(BG_PADRAO);
 		
 		switch (campo.minasNaVizinhanca()) {
 		case 1:

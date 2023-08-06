@@ -144,6 +144,7 @@ public class Campo {// um quadradinho do campo
 		aberto = false;
 		minado = false;
 		marcado = false;
+		notificarObservadores(CampoEvento.REINICIAR);
 	}
 //toString removido	
 }

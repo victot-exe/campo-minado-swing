@@ -116,7 +116,7 @@ public class Tabuleiro implements CampoObservador {
 //	percorre todos os campos, separa os que tem mina e abre para mostrar o resultado do jogo
 	private void mostrarMinas() {
 		campos.stream()
-			.filter(c -> c.isMinado())
+			.filter(c -> c.isMinado() && !c.isMarcado())
 			.forEach(c -> c.setAberto(true));
 	}
 	

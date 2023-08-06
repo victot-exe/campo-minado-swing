@@ -9,7 +9,7 @@ public class TelaPrincipal extends JFrame{
 	
 	public TelaPrincipal() {
 //		definindo o tabuleiro
-		Tabuleiro tabuleiro = new Tabuleiro(16, 30, 50);
+		Tabuleiro tabuleiro = new Tabuleiro(16, 30, 5);
 //		adicionando o tabuleiro na janela
 		add(new PainelTabuleiro(tabuleiro));
 		
